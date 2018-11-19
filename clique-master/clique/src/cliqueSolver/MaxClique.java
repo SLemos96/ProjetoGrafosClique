@@ -3,47 +3,42 @@ import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.util.Scanner;
 
-/**
- * CliqueSolver Class
- * Used to find the largest clique in the given graph
- * @author EthanEiter, jshin13wou, jaredpetersen
- */
-public class CliqueSolver 
+public class MaxClique 
 {
 	private String fileName; // Input file name
 	private Scanner scanner; // File Scanner
-	public int matrix[][]; 	 // 2D array used to store the adjacency matrix
-	public int degree[]; 	 // degree array
+	public int matrizAdjacencia[][]; 	 // 2D array used to store the adjacency matrix
+	public int graus[]; 	 // degree array
 	
 	/**
 	 * CliqueSolver Constructor
 	 * Normal constructor, automatically grabs the graph from the input file
 	 */
-	public CliqueSolver()
+	public MaxClique()
 	{
-		long start = System.currentTimeMillis();
-		long elapsed = 0;
+		long inicio = System.currentTimeMillis();
+		long fim = 0;
 		// Get the graph in the form of an adjacency matrix
-		InitMatrix("graph.txt");
+		iniciarMatriz("graph.txt");
 		// Get the degrees for each vertex
-		InitDegree();
+		iniciarGraus();
 		
 		// Begin solving the problem
 		// Iterate over the matrix, start at the highest clique size
-		for (int i = matrix.length; i >= 1; i--, elapsed = 0, start = System.currentTimeMillis())
+		for (int i = matrizAdjacencia.length; i >= 1; i--, fim = 0, inicio = System.currentTimeMillis())
 		{	
 			// ex: In a 5 node graph, if there aren't 5 nodes with with degree 4, move on.
-			if (numOfDegreeOrHigher(i-1) >= i)
+			if (encontraGrauMaior(i-1) >= i)
 			{
 				// Check for a complete clique of size i
-				if (checkClique(i))
+				if (verificaSubClique(i))
 				{
 					// Found the clique, stop looking
 					return;
 				}
-				System.out.print("A clique does not exist of size " + i + "...\n");
-				elapsed = System.currentTimeMillis() - start;
-				System.out.println("o metodo executou em " + elapsed + "ms\n");
+				System.out.print("Não existe uma clique de tamanho " + i + "...\n");
+				fim = System.currentTimeMillis() - inicio;
+				System.out.println("O laço executou em " + fim + "ms\n");
 			}
 		}
 	}
@@ -52,12 +47,12 @@ public class CliqueSolver
 	 * CliqueSolver Constructor -- Testing Edition
 	 * Test constructor, test cases graph everything manually
 	 */
-	public CliqueSolver(String graphInputFile)
+	public MaxClique(String graphInputFile)
 	{
 		// Get the graph in the form of an adjacency matrix
-		InitMatrix(graphInputFile);
+		iniciarMatriz(graphInputFile);
 		// Get the degrees for each vertex
-		InitDegree();
+		iniciarGraus();
 		
 	}
 	
@@ -65,7 +60,7 @@ public class CliqueSolver
 	 * Set a 2D array that matches the input file
 	 */
 	@SuppressWarnings("resource")
-	private void InitMatrix(String graphInputFile)
+	private void iniciarMatriz(String graphInputFile)
 	{
 		// Grab the input file
 		// File needs to be in the folder just above where the code is located
@@ -77,19 +72,19 @@ public class CliqueSolver
 		
 			String row[] = scanner.next().split("\\W+");
 				
-			matrix = new int[row.length][row.length];
+			matrizAdjacencia = new int[row.length][row.length];
 			
 			int index = 0;
 			
 			for(int i = 0; i< row.length; i++)
-				matrix[index][i] = Integer.parseInt(row[i]);
+				matrizAdjacencia[index][i] = Integer.parseInt(row[i]);
 
 			while(scanner.hasNext())
 			{
 				index++;
 				row = scanner.next().split("\\W+");
 				for(int i = 0; i< row.length; i++)
-					matrix[index][i] = Integer.parseInt(row[i]);
+					matrizAdjacencia[index][i] = Integer.parseInt(row[i]);
 			}
 			
 			scanner.close();
@@ -106,18 +101,18 @@ public class CliqueSolver
 	/**
 	 * Set an array of the degrees for each vertex
 	 */
-	private void InitDegree()
+	private void iniciarGraus()
 	{
-		degree = new int[matrix.length];
+		graus = new int[matrizAdjacencia.length];
 		int deg = 0;
-		for (int i = 0; i < matrix.length; i++) 
+		for (int i = 0; i < matrizAdjacencia.length; i++) 
 		{
 			deg = 0;
-			for (int j = 0; j < matrix.length; j++)
+			for (int j = 0; j < matrizAdjacencia.length; j++)
 			{
-				deg += matrix[i][j];
+				deg += matrizAdjacencia[i][j];
 			}
-			degree[i] = deg;
+			graus[i] = deg;
 		}
 	}
 	
@@ -126,12 +121,12 @@ public class CliqueSolver
 	 * @param deg The degree
 	 * @return The number of the vertices with the input degree or higher
 	 */
-	public int numOfDegreeOrHigher(int deg)
+	public int encontraGrauMaior(int deg)
 	{
 		int num = 0;
-		for (int i = 0; i < matrix.length; i++)
+		for (int i = 0; i < matrizAdjacencia.length; i++)
 		{
-			if(degree[i] >= deg)
+			if(graus[i] >= deg)
 			{
 				num++;
 			}
@@ -144,14 +139,14 @@ public class CliqueSolver
 	 * Used for debugging
 	 */
 	@SuppressWarnings("unused")
-	private void printMatrix()
+	private void imprimeMatriz()
 	{
 		//print what's in Matrix
-		for (int i = 0; i < matrix.length; i++)
+		for (int i = 0; i < matrizAdjacencia.length; i++)
 		{
-			for(int j = 0; j < matrix.length; j++)
+			for(int j = 0; j < matrizAdjacencia.length; j++)
 			{
-				System.out.print(matrix[i][j]);
+				System.out.print(matrizAdjacencia[i][j]);
 			}
 			System.out.print('\n');
 		}
@@ -159,21 +154,21 @@ public class CliqueSolver
 	
 	/**
 	 * Check if there is a complete clique with the input size
-	 * @param size The number of nodes in the clique
+	 * @param tamanho The number of nodes in the clique
 	 * @return True if there is a complete clique with the input size
 	 */
-	public boolean checkClique(int size) 
+	public boolean verificaSubClique(int tamanho) 
 	{
 		/* Nodes used to store the nodes that fit the degree requirements
 		   i.e. if we're looking for a clique of size 4, don't include nodes that only have 
 		   a degree of 1 because there's no way it could be in the complete clique */
-		System.out.println("Checking for clique of size " + size + "...");
-		int nodes[] = new int[numOfDegreeOrHigher(size-1)];
+		System.out.println("Checking for clique of size " + tamanho + "...");
+		int nodes[] = new int[encontraGrauMaior(tamanho-1)];
 		int count = 0;
 		// Get the previously discussed nodes that fit the degree requirements
-		for (int i = 0; i < degree.length; i++)
+		for (int i = 0; i < graus.length; i++)
 		{
-			if (degree[i] >= size-1)
+			if (graus[i] >= tamanho-1)
 			{
 				nodes[count] = i;
 				count++;
@@ -182,7 +177,8 @@ public class CliqueSolver
 		
 		// Helper method called, used to check all of the combinations of the nodes array
 		// Uses brute force, but cuts down on the number of nodes that need to be checked
-		return combination(nodes, size);
+		int[] res = new int[tamanho];
+		return verificaAdjacencias(nodes, res, 0, 0, tamanho);//combination(nodes, tamanho);
 	}
 	
 	/**
@@ -191,7 +187,7 @@ public class CliqueSolver
 	 * @param size The size of the complete clique we're looking for
 	 * @return True if the graph contains a complete clique of size "size"
 	 */
-	private boolean checkCurrClique(int[] nodes, int size)
+	private boolean verificaClique(int[] nodes, int size)
 	{
 		boolean failed = false;
 		for (int i = 0; i < nodes.length-1; i++) // the last node NEVER needs to be checked
@@ -204,7 +200,7 @@ public class CliqueSolver
 				System.out.println("nodes[i] = " + nodes[i]);
 				System.out.println("nodes[j] = " + nodes[j]);
 				System.out.println("matrix[nodes[i]][nodes[j]] = " + matrix[nodes[i]][nodes[j]]);*/
-				if (matrix[nodes[i]][nodes[j]] == 0)
+				if (matrizAdjacencia[nodes[i]][nodes[j]] == 0)
 				{
 					failed = true;
 				}
@@ -234,33 +230,20 @@ public class CliqueSolver
 	}
 	
 	/**
-	 * Checks all of the nodes for a clique of the given size
-	 * @param arr The nodes in the subgraph
-	 * @param r The size of the clique we are looking for
-	 * @return True if a clique of size r is found
-	 */
-	private boolean combination(int[] arr, int r)
-	{
-		int[] res = new int[r];
-		// Call the helper method
-		return combine(arr, res, 0, 0, r);
-	}
-	
-	/**
 	 * Recursive helper method that checks for all of the combinations of the input nodes
 	 * @param arr The array of nodes
 	 * @param res
-	 * @param currIndex
-	 * @param level
+	 * @param indiceAtual
+	 * @param nivel
 	 * @param r
 	 * @return True if a clique of size r is found
 	 */
-	private boolean combine(int[] arr, int[] res, int currIndex, int level, int r) {
+	private boolean verificaAdjacencias(int[] arr, int[] res, int indiceAtual, int nivel, int r) {
 		// Check if combo found
-		if (level == r)
+		if (nivel == r)
         {
 			// Check if the combination is a clique
-        	if(checkCurrClique(res, r))
+        	if(verificaClique(res, r))
         	{
 				// Success! Let's get out of here
         		return true;
@@ -269,10 +252,10 @@ public class CliqueSolver
         	return false;
         }
 		// Combo not found, keep chugging
-        for (int i = currIndex; i < arr.length; i++) 
+        for (int i = indiceAtual; i < arr.length; i++) 
         {
-            res[level] = arr[i];
-            if (combine(arr, res, i+1, level+1, r))
+            res[nivel] = arr[i];
+            if (verificaAdjacencias(arr, res, i+1, nivel+1, r))
             {
     			return true;
             }
