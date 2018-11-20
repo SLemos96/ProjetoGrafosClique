@@ -11,8 +11,8 @@ public class MaxClique
 	public int graus[]; 	 // Vetor de graus
 	
 	/**
-	 * Construtor MaxClique
-	 * Automaticamente le grafo do arquivo de entrada
+	 * Construtor MaxClique - Com um arquivo de entrada
+	 * Utiliza automaticamente o grafo do arquivo de entrada
 	 */
 	public MaxClique()
 	{
@@ -44,26 +44,24 @@ public class MaxClique
 	}
 	
 	/**
-	 * CliqueSolver Constructor -- Testing Edition
-	 * Test constructor, test cases graph everything manually
+	 * Construtor MaxClique - Versão para testes
+	 * Versão do construtor que recebe o grafo como parâmetro de entrada
 	 */
 	public MaxClique(String graphInputFile)
 	{
-		// Get the graph in the form of an adjacency matrix
+		// Cria matriz de adjacência com base no grafo recebido
 		iniciarMatriz(graphInputFile);
-		// Get the degrees for each vertex
+		// Guarda os graus de cada vértice
 		iniciarGraus();
 		
 	}
 	
 	/**
-	 * Set a 2D array that matches the input file
+	 * Cria uma matriz com base no grafo do arquivo de entrada, essa matriz vai armazenar as adjacencias posteriormente
 	 */
 	@SuppressWarnings("resource")
 	private void iniciarMatriz(String graphInputFile)
 	{
-		// Grab the input file
-		// File needs to be in the folder just above where the code is located
 		nomeDoArquivo = graphInputFile;
 		
 		try
@@ -92,56 +90,53 @@ public class MaxClique
 		
 		catch (FileNotFoundException e)
 		{
-			// File does not exist, shut the program down with an error
-			System.out.println("Oops! It looks like we couldn't find your input file.");
-			System.out.println("Please read the documentation for more information.");
+			// Não foi possível abrir o arquivo. Parar execução do programa e imprimir erro 
+			System.out.println("Não foi possível abrir o arquivo de entrada.");
+			System.out.println("Por favor, tente novamente.");
 		}
 	}
 	
 	/**
-	 * Set an array of the degrees for each vertex
+	 * Cria um vetor para armazenar os graus de cada vértice
 	 */
 	private void iniciarGraus()
 	{
 		graus = new int[matrizAdjacencia.length];
-		int deg = 0;
+		int gr = 0;
 		for (int i = 0; i < matrizAdjacencia.length; i++) 
 		{
-			deg = 0;
+			gr = 0;
 			for (int j = 0; j < matrizAdjacencia.length; j++)
 			{
-				deg += matrizAdjacencia[i][j];
+				gr += matrizAdjacencia[i][j];
 			}
-			graus[i] = deg;
+			graus[i] = gr;
 		}
 	}
 	
 	/**
-	 * Finds the number of vertices with the input degree or higher
-	 * @param deg The degree
-	 * @return The number of the vertices with the input degree or higher
+	 * Encontra o número de vértices que possuem o grau recebido como parâmetro
 	 */
-	public int encontraGrauMaior(int deg)
+	public int encontraGrauMaior(int grau)
 	{
-		int num = 0;
+		int vertices = 0;
 		for (int i = 0; i < matrizAdjacencia.length; i++)
 		{
-			if(graus[i] >= deg)
+			if(graus[i] >= grau)
 			{
-				num++;
+				vertices++;
 			}
 		}
-		return num;
+		return vertices;
 	}
 	
 	/**
-	 * Prints the input matrix
-	 * Used for debugging
+	 * Método para impressão de matriz
+	 * Usado para debugging
 	 */
 	@SuppressWarnings("unused")
 	private void imprimeMatriz()
 	{
-		//print what's in Matrix
 		for (int i = 0; i < matrizAdjacencia.length; i++)
 		{
 			for(int j = 0; j < matrizAdjacencia.length; j++)
@@ -153,19 +148,17 @@ public class MaxClique
 	}
 	
 	/**
-	 * Check if there is a complete clique with the input size
-	 * @param tamanho The number of nodes in the clique
-	 * @return True if there is a complete clique with the input size
+	 * Verifica se existe uma clique completa com o tamanho recebido como parâmetro
 	 */
 	public boolean verificaSubClique(int tamanho) 
 	{
-		/* Nodes used to store the nodes that fit the degree requirements
-		   i.e. if we're looking for a clique of size 4, don't include nodes that only have 
-		   a degree of 1 because there's no way it could be in the complete clique */
-		System.out.println("Checking for clique of size " + tamanho + "...");
+		/* nodes guarda os vértices de grau maior ou igual a tamanho
+		   exemplo: uma busca por uma clique de tamanho 4 não inclui vértices de grau 1, 
+		   pois é impossível que esses vértices façam parte da clique */
+		System.out.println("Procurando por uma clique de tamanho " + tamanho + "...");
 		int nodes[] = new int[encontraGrauMaior(tamanho-1)];
 		int count = 0;
-		// Get the previously discussed nodes that fit the degree requirements
+		// Usando nodes, ou seja, vértices de grau maior ou igual a tamanho
 		for (int i = 0; i < graus.length; i++)
 		{
 			if (graus[i] >= tamanho-1)
@@ -259,13 +252,13 @@ public class MaxClique
             {
     			return true;
             }
-            // Avoid printing duplicates
+            // Para evitar a impressão duplicada
             if (i < arr.length-1 && arr[i] == arr[i+1])
             {
                 i++;
             }
         }
-        // Clique of size r was never found, get out of here
+        // Clique de tamanho r não foi encontrada
         return false;
     }
 }
