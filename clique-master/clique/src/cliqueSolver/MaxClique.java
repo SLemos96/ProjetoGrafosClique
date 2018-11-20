@@ -5,35 +5,35 @@ import java.util.Scanner;
 
 public class MaxClique 
 {
-	private String fileName; // Input file name
+	private String nomeDoArquivo; // Nome do arquivo de entrada
 	private Scanner scanner; // File Scanner
-	public int matrizAdjacencia[][]; 	 // 2D array used to store the adjacency matrix
-	public int graus[]; 	 // degree array
+	public int matrizAdjacencia[][]; 	 // Matriz de adjacencia
+	public int graus[]; 	 // Vetor de graus
 	
 	/**
-	 * CliqueSolver Constructor
-	 * Normal constructor, automatically grabs the graph from the input file
+	 * Construtor MaxClique
+	 * Automaticamente le grafo do arquivo de entrada
 	 */
 	public MaxClique()
 	{
 		long inicio = System.currentTimeMillis();
 		long fim = 0;
-		// Get the graph in the form of an adjacency matrix
+		// Cria matriz de adjacência com base no grafo do arquivo
 		iniciarMatriz("graph.txt");
-		// Get the degrees for each vertex
+		// Guarda os graus de cada vértice
 		iniciarGraus();
 		
-		// Begin solving the problem
-		// Iterate over the matrix, start at the highest clique size
+		// Inicio da solução
+		// Itera sobre matrizAdjacencia, inicia na clique de maior tamanho
 		for (int i = matrizAdjacencia.length; i >= 1; i--, fim = 0, inicio = System.currentTimeMillis())
 		{	
-			// ex: In a 5 node graph, if there aren't 5 nodes with with degree 4, move on.
+			// exemplo: Em um grafo de 5 nós, senão contém 5 nós de grau 4, siga para o próximo grau inferior.
 			if (encontraGrauMaior(i-1) >= i)
 			{
-				// Check for a complete clique of size i
+				// Procura uma clique completa de tamanho i
 				if (verificaSubClique(i))
 				{
-					// Found the clique, stop looking
+					// Após encontrar, para de procurar
 					return;
 				}
 				System.out.print("Não existe uma clique de tamanho " + i + "...\n");
@@ -64,11 +64,11 @@ public class MaxClique
 	{
 		// Grab the input file
 		// File needs to be in the folder just above where the code is located
-		fileName = graphInputFile;
+		nomeDoArquivo = graphInputFile;
 		
 		try
 		{
-			scanner = new Scanner(new FileReader(fileName)).useDelimiter("\n");
+			scanner = new Scanner(new FileReader(nomeDoArquivo)).useDelimiter("\n");
 		
 			String row[] = scanner.next().split("\\W+");
 				
