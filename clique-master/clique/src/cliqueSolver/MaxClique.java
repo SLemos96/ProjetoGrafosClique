@@ -115,20 +115,135 @@ public class MaxClique
 	}
 	
 	/**
-	 * Encontra o número de vértices que possuem o grau recebido como parâmetro
+	 * Encontra o número de vértices que possuem o "grau" recebido como parâmetro
 	 */
 	public int encontraGrauMaior(int grau)
 	{
-		int vertices = 0;
+		int n_vertices = 0;
 		for (int i = 0; i < matrizAdjacencia.length; i++)
 		{
 			if(graus[i] >= grau)
 			{
-				vertices++;
+				n_vertices++;
 			}
 		}
-		return vertices;
+		return n_vertices;
 	}
+		
+	/**
+	 * Verifica se existe uma clique completa com o "tamanho" recebido como parâmetro
+	 */
+	public boolean verificaSubClique(int tamanho) 
+	{
+		/* "vertices" guarda os vértices de grau maior ou igual a tamanho
+		   exemplo: uma busca por uma clique de tamanho 4 não inclui vértices de grau 1, 
+		   pois é impossível que esses vértices façam parte da clique */
+		System.out.println("Procurando por uma clique de tamanho " + tamanho + "...");
+		int vertices[] = new int[encontraGrauMaior(tamanho-1)];
+		int cont = 0;
+		// Usando "vertices", ou seja, vértices de grau maior ou igual a tamanho
+		for (int i = 0; i < graus.length; i++)
+		{
+			if (graus[i] >= tamanho-1)
+			{
+				vertices[cont] = i;
+				cont++;
+			}
+		}
+		
+		// Chamada de método usado para verificar todas as adjacências entre os vértices de v[]
+		// Usa força bruta
+		int[] res = new int[tamanho];
+		return verificaAdjacencias(vertices, res, 0, 0, tamanho); // combination(v, tamanho);
+	}
+	
+	/**
+	 * Verifica se um dado grafo tem uma clique completa do "tamanho" recebido como parâmetro
+	 * @param vertices Vértices do grafo
+	 * @param tamanho O tamanho da clique completa que estamos buscando
+	 * @return True se o grafo contém uma clique completa de "tamanho" recebido por parâmetro
+	 */
+	private boolean verificaClique(int[] vertices, int tamanho)
+	{
+		boolean falhou = false;
+		for (int i = 0; i < vertices.length-1; i++) // O ultimo vértice nunca precisa ser verificado
+		{
+			for (int j = i+1; j < vertices.length; j++)
+			{
+				// Impressão para debugging
+				/*System.out.println("vertices.length = " + vertices.length);
+				System.out.println("i = " + i + ", j = " + j);
+				System.out.println("vertices[i] = " + vertices[i]);
+				System.out.println("vertices[j] = " + vertices[j]);
+				System.out.println("matrizAdjacencia[vertices[i]][vertices[j]] = " + matrizAdjacencia[vertices[i]][vertices[j]]);*/
+				if (matrizAdjacencia[vertices[i]][vertices[j]] == 0)
+				{
+					falhou = true;
+				}
+			}
+			if (falhou)
+			{
+				break;
+			}
+		}
+		
+		if (falhou)
+		{
+			falhou = false;
+		}
+		else
+		{
+			// Encontrou a maior clique
+			System.out.println("A clique maxima eh de tamanho " + tamanho + ".");
+			System.out.print("Vertices incluidos: " + (vertices[0]+1));
+			for(int i = 1; i < vertices.length; i++)
+			{
+				System.out.print(", " + (vertices[i]+1));
+			}
+			return true;
+		}
+		return false;
+	}
+	
+	/**
+	 * Método recursivo que verifica todas as adjacências dos vértices de entrada
+	 * @param vertices Vetor de vértices
+	 * @param res
+	 * @param indiceAtual
+	 * @param nivel
+	 * @param r
+	 * @return True if a clique of size r is found
+	 */
+	private boolean verificaAdjacencias(int[] vertices, int[] res, int indiceAtual, int nivel, int r) {
+		// Check if combo found
+		if (nivel == r)
+        {
+			// Check if the combination is a clique
+        	if(verificaClique(res, r))
+        	{
+				// Success! Let's get out of here
+        		return true;
+        	}
+        	// Fail, keep on chugging
+        	return false;
+        }
+		// Combo not found, keep chugging
+        for (int i = indiceAtual; i < vertices.length; i++) 
+        {
+            res[nivel] = vertices[i];
+            if (verificaAdjacencias(vertices, res, i+1, nivel+1, r))
+            {
+    			return true;
+            }
+            // Para evitar a impressão duplicada
+            if (i < vertices.length-1 && vertices[i] == vertices[i+1])
+            {
+                i++;
+            }
+        }
+        // Clique de tamanho r não foi encontrada
+        return false;
+    }
 	
 	/**
 	 * Método para impressão de matriz
@@ -146,119 +261,4 @@ public class MaxClique
 			System.out.print('\n');
 		}
 	}
-	
-	/**
-	 * Verifica se existe uma clique completa com o tamanho recebido como parâmetro
-	 */
-	public boolean verificaSubClique(int tamanho) 
-	{
-		/* nodes guarda os vértices de grau maior ou igual a tamanho
-		   exemplo: uma busca por uma clique de tamanho 4 não inclui vértices de grau 1, 
-		   pois é impossível que esses vértices façam parte da clique */
-		System.out.println("Procurando por uma clique de tamanho " + tamanho + "...");
-		int nodes[] = new int[encontraGrauMaior(tamanho-1)];
-		int count = 0;
-		// Usando nodes, ou seja, vértices de grau maior ou igual a tamanho
-		for (int i = 0; i < graus.length; i++)
-		{
-			if (graus[i] >= tamanho-1)
-			{
-				nodes[count] = i;
-				count++;
-			}
-		}
-		
-		// Helper method called, used to check all of the combinations of the nodes array
-		// Uses brute force, but cuts down on the number of nodes that need to be checked
-		int[] res = new int[tamanho];
-		return verificaAdjacencias(nodes, res, 0, 0, tamanho);//combination(nodes, tamanho);
-	}
-	
-	/**
-	 * Check if the given graph has a complete clique of size "size"
-	 * @param nodes The nodes in the graph
-	 * @param size The size of the complete clique we're looking for
-	 * @return True if the graph contains a complete clique of size "size"
-	 */
-	private boolean verificaClique(int[] nodes, int size)
-	{
-		boolean failed = false;
-		for (int i = 0; i < nodes.length-1; i++) // the last node NEVER needs to be checked
-		{
-			for (int j = i+1; j < nodes.length; j++)
-			{
-				// Debug print statements.
-				/*System.out.println("nodes.length = " + nodes.length);
-				System.out.println("i = " + i + ", j = " + j);
-				System.out.println("nodes[i] = " + nodes[i]);
-				System.out.println("nodes[j] = " + nodes[j]);
-				System.out.println("matrix[nodes[i]][nodes[j]] = " + matrix[nodes[i]][nodes[j]]);*/
-				if (matrizAdjacencia[nodes[i]][nodes[j]] == 0)
-				{
-					failed = true;
-				}
-			}
-			if (failed)
-			{
-				break;
-			}
-		}
-		
-		if (failed)
-		{
-			failed = false;
-		}
-		else
-		{
-			// Found the largest clique
-			System.out.println("The largest clique is of size " + size + ".");
-			System.out.print("Nodes included: " + (nodes[0]+1));
-			for(int i = 1; i < nodes.length; i++)
-			{
-				System.out.print(", " + (nodes[i]+1));
-			}
-			return true;
-		}
-		return false;
-	}
-	
-	/**
-	 * Recursive helper method that checks for all of the combinations of the input nodes
-	 * @param arr The array of nodes
-	 * @param res
-	 * @param indiceAtual
-	 * @param nivel
-	 * @param r
-	 * @return True if a clique of size r is found
-	 */
-	private boolean verificaAdjacencias(int[] arr, int[] res, int indiceAtual, int nivel, int r) {
-		// Check if combo found
-		if (nivel == r)
-        {
-			// Check if the combination is a clique
-        	if(verificaClique(res, r))
-        	{
-				// Success! Let's get out of here
-        		return true;
-        	}
-        	// Fail, keep on chugging
-        	return false;
-        }
-		// Combo not found, keep chugging
-        for (int i = indiceAtual; i < arr.length; i++) 
-        {
-            res[nivel] = arr[i];
-            if (verificaAdjacencias(arr, res, i+1, nivel+1, r))
-            {
-    			return true;
-            }
-            // Para evitar a impressão duplicada
-            if (i < arr.length-1 && arr[i] == arr[i+1])
-            {
-                i++;
-            }
-        }
-        // Clique de tamanho r não foi encontrada
-        return false;
-    }
 }
