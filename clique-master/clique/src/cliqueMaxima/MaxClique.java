@@ -76,21 +76,21 @@ public class MaxClique
 		{
 			scanner = new Scanner(new FileReader(nomeDoArquivo)).useDelimiter("\n");
 		
-			String row[] = scanner.next().split("\\W+");
+			String linhas[] = scanner.next().split("\\W+");
 				
-			matrizAdjacencia = new int[row.length][row.length];
+			matrizAdjacencia = new int[linhas.length][linhas.length];
 			
 			int index = 0;
 			
-			for(int i = 0; i< row.length; i++)
-				matrizAdjacencia[index][i] = Integer.parseInt(row[i]);
+			for(int i = 0; i< linhas.length; i++)
+				matrizAdjacencia[index][i] = Integer.parseInt(linhas[i]);
 
 			while(scanner.hasNext())
 			{
 				index++;
-				row = scanner.next().split("\\W+");
-				for(int i = 0; i< row.length; i++)
-					matrizAdjacencia[index][i] = Integer.parseInt(row[i]);
+				linhas = scanner.next().split("\\W+");
+				for(int i = 0; i< linhas.length; i++)
+					matrizAdjacencia[index][i] = Integer.parseInt(linhas[i]);
 			}
 			
 			scanner.close();
@@ -234,16 +234,16 @@ public class MaxClique
 	 * @param res
 	 * @param indiceAtual
 	 * @param nivel
-	 * @param r
+	 * @param tamanho
 	 * @return True if a clique of size r is found
 	 * @throws IOException 
 	 */
-	private boolean verificaAdjacencias(int[] vertices, int[] res, int indiceAtual, int nivel, int r) throws IOException {
+	private boolean verificaAdjacencias(int[] vertices, int[] res, int indiceAtual, int nivel, int tamanho) throws IOException {
 		// Check if combo found
-		if (nivel == r)
+		if (nivel == tamanho)
         {
 			// Verificando se é uma clique
-        	if(verificaClique(res, r))
+        	if(verificaClique(res, tamanho))
         	{
 				// Sim, é uma clique
         		return true;
@@ -254,7 +254,7 @@ public class MaxClique
         for (int i = indiceAtual; i < vertices.length; i++) 
         {
             res[nivel] = vertices[i];
-            if (verificaAdjacencias(vertices, res, i+1, nivel+1, r))
+            if (verificaAdjacencias(vertices, res, i+1, nivel+1, tamanho))
             {
     			return true;
             }
