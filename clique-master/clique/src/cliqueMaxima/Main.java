@@ -1,4 +1,4 @@
-package cliqueSolver;
+package cliqueMaxima;
 
 public class Main 
 {

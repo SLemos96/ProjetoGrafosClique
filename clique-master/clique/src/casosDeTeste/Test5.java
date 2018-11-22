@@ -1,33 +1,40 @@
-package testing;
-
-import cliqueSolver.*;
+package casosDeTeste;
 
 import org.junit.Test;
 
+import cliqueMaxima.*;
+
 import static org.junit.Assert.*;
 
-public class Test3 
+public class Test5 
 {
 	    
 	@Test
 	public void test() 
 	{
 		/* Input graph:
-		 * O O (Two unconnected nodes)
+		 * O----O----O
+		 *      | \  |
+		 *      |  \ |
+		 *      O----O----O
+		 *           | \/ |
+		 *           | /\ |
+		 *           O----O
+		 * 
 		 * Expected Result:
-		 * Clique of size 1
+		 * Clique of Size 4
 		 * 
 		 * Current Status:
 		 * PASS
 		 */
 		
-		MaxClique clique = new MaxClique("testInputs/graphTest3.txt");
+		MaxClique clique = new MaxClique("testInputs/graphTest5.txt");
 		
 		// Begin solving the problem
 		// Iterate over the matrix, start at the highest clique size
 		for (int i = clique.matrizAdjacencia.length; i >= 1; i--)
 		{	
-			if (clique.encontraGrauMaior(i-1) >= i-1)
+			if (clique.encontraGrauMaior(i-1) >= i)
 			{
 				// Check for a complete clique of size i
 				if (clique.verificaSubClique(i))

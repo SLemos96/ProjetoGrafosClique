@@ -1,19 +1,22 @@
-package testing;
-
-import cliqueSolver.*;
+package casosDeTeste;
 
 import org.junit.Test;
 
+import cliqueMaxima.*;
+
 import static org.junit.Assert.*;
 
-public class Test2 
+public class Test1 
 {
 	    
 	@Test
 	public void test() 
 	{
 		/* Input graph:
-		 * O (Single node)
+		 * O----O
+		 * |    |
+		 * |    |
+		 * O----O
 		 * Expected Result:
 		 * Clique of size 1
 		 * 
@@ -21,7 +24,7 @@ public class Test2
 		 * PASS
 		 */
 		
-		MaxClique clique = new MaxClique("testInputs/graphTest2.txt");
+		MaxClique clique = new MaxClique("testInputs/graphTest1.txt");
 		
 		// Begin solving the problem
 		// Iterate over the matrix, start at the highest clique size
@@ -39,7 +42,7 @@ public class Test2
 				}
 			}
 		}
-		
 		fail();
+		
 	}
 }
