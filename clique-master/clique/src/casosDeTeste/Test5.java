@@ -6,11 +6,13 @@ import cliqueMaxima.*;
 
 import static org.junit.Assert.*;
 
+import java.io.IOException;
+
 public class Test5 
 {
 	    
 	@Test
-	public void test() 
+	public void test() throws IOException 
 	{
 		/* Grafo de entrada:
 		 * O----O----O
