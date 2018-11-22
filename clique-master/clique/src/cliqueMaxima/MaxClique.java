@@ -9,6 +9,8 @@ public class MaxClique
 	private Scanner scanner; // File Scanner
 	public int matrizAdjacencia[][]; 	 // Matriz de adjacencia
 	public int graus[]; 	 // Vetor de graus
+	long fim = 0;
+	long inicio = System.currentTimeMillis();
 	
 	/**
 	 * Construtor MaxClique - Com um arquivo de entrada
@@ -16,8 +18,6 @@ public class MaxClique
 	 */
 	public MaxClique()
 	{
-		long inicio = System.currentTimeMillis();
-		long fim = 0;
 		// Cria matriz de adjacência com base no grafo do arquivo
 		iniciarMatriz("graph.txt");
 		// Guarda os graus de cada vértice
@@ -139,6 +139,7 @@ public class MaxClique
 		   exemplo: uma busca por uma clique de tamanho 4 não inclui vértices de grau 1, 
 		   pois é impossível que esses vértices façam parte da clique */
 		System.out.println("Procurando por uma clique de tamanho " + tamanho + "...");
+		inicio = System.currentTimeMillis();
 		int vertices[] = new int[encontraGrauMaior(tamanho-1)];
 		int cont = 0;
 		// Usando "vertices", ou seja, vértices de grau maior ou igual a tamanho
@@ -194,7 +195,9 @@ public class MaxClique
 		else
 		{
 			// Encontrou a maior clique
+			fim = System.currentTimeMillis() - inicio;
 			System.out.println("A clique maxima eh de tamanho " + tamanho + ".");
+			System.out.println("O laço executou em " + fim + "ms\n");
 			System.out.print("Vertices incluidos: " + (vertices[0]+1));
 			for(int i = 1; i < vertices.length; i++)
 			{
@@ -218,16 +221,15 @@ public class MaxClique
 		// Check if combo found
 		if (nivel == r)
         {
-			// Check if the combination is a clique
+			// Verificando se é uma clique
         	if(verificaClique(res, r))
         	{
-				// Success! Let's get out of here
+				// Sim, é uma clique
         		return true;
         	}
-        	// Fail, keep on chugging
+        	// Não é uma clique
         	return false;
         }
-		// Combo not found, keep chugging
         for (int i = indiceAtual; i < vertices.length; i++) 
         {
             res[nivel] = vertices[i];

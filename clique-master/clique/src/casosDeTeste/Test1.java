@@ -12,32 +12,27 @@ public class Test1
 	@Test
 	public void test() 
 	{
-		/* Input graph:
+		/* Grafo de Entrada:
 		 * O----O
 		 * |    |
 		 * |    |
 		 * O----O
-		 * Expected Result:
-		 * Clique of size 1
+		 * Resultado esperado:
+		 * Clique de tamanho 1
 		 * 
-		 * Current Status:
-		 * PASS
+		 * OK
 		 */
 		
-		MaxClique clique = new MaxClique("testInputs/graphTest1.txt");
+		MaxClique clique = new MaxClique("testes/graphTest1.txt");
 		
-		// Begin solving the problem
-		// Iterate over the matrix, start at the highest clique size
 		for (int i = clique.matrizAdjacencia.length; i >= 1; i--)
 		{	
 			if (clique.encontraGrauMaior(i-1) >= i-1)
 			{
-				// Check for a complete clique of size i
+				// Verificando se existe uma clique completa de tamanho i
 				if (clique.verificaSubClique(i))
 				{
-					// Clique found
-					// Application architecture does not allow for checking the clique nodes
-					// Really should be refactored
+					//Clique encontrada
 					return;
 				}
 			}
