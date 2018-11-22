@@ -1,6 +1,9 @@
 package cliqueMaxima;
 import java.io.FileNotFoundException;
 import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class MaxClique 
@@ -11,12 +14,15 @@ public class MaxClique
 	public int graus[]; 	 // Vetor de graus
 	long fim = 0;
 	long inicio = System.currentTimeMillis();
+	List<String> dadosRelatorio = new ArrayList<>();
+	EscreveLog registro = new EscreveLog();
 	
 	/**
 	 * Construtor MaxClique - Com um arquivo de entrada
 	 * Utiliza automaticamente o grafo do arquivo de entrada
+	 * @throws IOException 
 	 */
-	public MaxClique()
+	public MaxClique() throws IOException
 	{
 		// Cria matriz de adjacência com base no grafo do arquivo
 		iniciarMatriz("graph.txt");
@@ -37,8 +43,10 @@ public class MaxClique
 					return;
 				}
 				System.out.print("Não existe uma clique de tamanho " + i + "...\n");
+				dadosRelatorio.add("Não existe uma clique de tamanho " + i);
 				fim = System.currentTimeMillis() - inicio;
 				System.out.println("O laço executou em " + fim + "ms\n");
+				dadosRelatorio.add("O laço executou em " + fim + "ms\n");
 			}
 		}
 	}
@@ -132,13 +140,15 @@ public class MaxClique
 		
 	/**
 	 * Verifica se existe uma clique completa com o "tamanho" recebido como parâmetro
+	 * @throws IOException 
 	 */
-	public boolean verificaSubClique(int tamanho) 
+	public boolean verificaSubClique(int tamanho) throws IOException 
 	{
 		/* "vertices" guarda os vértices de grau maior ou igual a tamanho
 		   exemplo: uma busca por uma clique de tamanho 4 não inclui vértices de grau 1, 
 		   pois é impossível que esses vértices façam parte da clique */
 		System.out.println("Procurando por uma clique de tamanho " + tamanho + "...");
+		dadosRelatorio.add("Procurando por uma clique de tamanho " + tamanho + "...");
 		inicio = System.currentTimeMillis();
 		int vertices[] = new int[encontraGrauMaior(tamanho-1)];
 		int cont = 0;
@@ -163,8 +173,9 @@ public class MaxClique
 	 * @param vertices Vértices do grafo
 	 * @param tamanho O tamanho da clique completa que estamos buscando
 	 * @return True se o grafo contém uma clique completa de "tamanho" recebido por parâmetro
+	 * @throws IOException 
 	 */
-	private boolean verificaClique(int[] vertices, int tamanho)
+	private boolean verificaClique(int[] vertices, int tamanho) throws IOException
 	{
 		boolean falhou = false;
 		for (int i = 0; i < vertices.length-1; i++) // O ultimo vértice nunca precisa ser verificado
@@ -197,12 +208,21 @@ public class MaxClique
 			// Encontrou a maior clique
 			fim = System.currentTimeMillis() - inicio;
 			System.out.println("A clique maxima eh de tamanho " + tamanho + ".");
+			dadosRelatorio.add("A clique maxima eh de tamanho " + tamanho + ".");
+			
 			System.out.println("O laço executou em " + fim + "ms\n");
+			dadosRelatorio.add("O laço executou em " + fim + "ms\n");
+			
 			System.out.print("Vertices incluidos: " + (vertices[0]+1));
+			String auxiliar = "Vertices incluidos: " + (vertices[0]+1);
 			for(int i = 1; i < vertices.length; i++)
 			{
 				System.out.print(", " + (vertices[i]+1));
+				auxiliar += ", " + (vertices[i]+1);
+				//dadosRelatorio.add(", " + (vertices[i]+1));
 			}
+			dadosRelatorio.add(auxiliar);
+			registro.geraLog(dadosRelatorio);
 			return true;
 		}
 		return false;
@@ -216,8 +236,9 @@ public class MaxClique
 	 * @param nivel
 	 * @param r
 	 * @return True if a clique of size r is found
+	 * @throws IOException 
 	 */
-	private boolean verificaAdjacencias(int[] vertices, int[] res, int indiceAtual, int nivel, int r) {
+	private boolean verificaAdjacencias(int[] vertices, int[] res, int indiceAtual, int nivel, int r) throws IOException {
 		// Check if combo found
 		if (nivel == r)
         {

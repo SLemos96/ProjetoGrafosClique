@@ -1,7 +1,6 @@
 package cliqueMaxima;
 
 import java.io.IOException;
-import java.util.Scanner;
 
 public class Main 
 {
@@ -13,7 +12,7 @@ public class Main
 		teste();
 	}
 
-	public static void teste() { //colar a parte de geração do grafo aleatório aqui
+	public static void teste() throws IOException { //colar a parte de geração do grafo aleatório aqui
 		new MaxClique();
 		
 	}

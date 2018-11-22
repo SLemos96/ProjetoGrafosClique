@@ -16,7 +16,6 @@ public class RandomGraph {
 	   	Scanner ler = new Scanner(System.in);
 		int n   = 30;//Integer.parseInt(200);
 		int e   = 350;//Integer.parseInt(args[1]);
-		int matriz[][] = new int[n][n]; // matriz de adjacencia
 		int limiteArestas = 0;
 
 		// Novo gerador de numeros aleatorios
@@ -24,6 +23,7 @@ public class RandomGraph {
 		
 		System.out.printf("Informe o número de vértices:\n");
 		n = ler.nextInt();
+		int matriz[][] = new int[n][n]; // matriz de adjacencia
 		do {
 			System.out.printf("Agora informe o número de arestas:\n");
 			e = ler.nextInt();

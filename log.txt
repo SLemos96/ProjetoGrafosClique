@@ -1,0 +1,37 @@
+Procurando por uma clique de tamanho 14...
+Não existe uma clique de tamanho 14
+O laço executou em 0ms
+
+Procurando por uma clique de tamanho 13...
+Não existe uma clique de tamanho 13
+O laço executou em 31ms
+
+Procurando por uma clique de tamanho 12...
+Não existe uma clique de tamanho 12
+O laço executou em 145ms
+
+Procurando por uma clique de tamanho 11...
+Não existe uma clique de tamanho 11
+O laço executou em 520ms
+
+Procurando por uma clique de tamanho 10...
+Não existe uma clique de tamanho 10
+O laço executou em 600ms
+
+Procurando por uma clique de tamanho 9...
+Não existe uma clique de tamanho 9
+O laço executou em 270ms
+
+Procurando por uma clique de tamanho 8...
+Não existe uma clique de tamanho 8
+O laço executou em 113ms
+
+Procurando por uma clique de tamanho 7...
+Não existe uma clique de tamanho 7
+O laço executou em 33ms
+
+Procurando por uma clique de tamanho 6...
+A clique maxima eh de tamanho 6.
+O laço executou em 0ms
+
+Vertices incluidos: 1, 2, 7, 12, 20, 25
