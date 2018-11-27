@@ -31,8 +31,8 @@ public class MaxClique
 		// Guarda os graus de cada vértice
 		iniciarGraus();
 		
-		System.out.println("O relogio está iniciando sua contagem:" + "0ms\n");
-		dadosRelatorio.add("O relogio está iniciando sua contagem:" + "0ms\n");
+		System.out.println("O relogio está iniciando sua contagem: " + "0ms\n");
+		dadosRelatorio.add("O relogio está iniciando sua contagem: " + "0ms\n");
 		
 		// Inicio da solução
 		// Itera sobre matrizAdjacencia, inicia na clique de maior tamanho
@@ -212,13 +212,13 @@ public class MaxClique
 		{
 			// Encontrou a maior clique
 			fimLaco = System.currentTimeMillis() - inicioLaco;
+			fimTotal = System.currentTimeMillis() - inicioTotal;
 			System.out.println("A clique maxima eh de tamanho " + tamanho + ".");
 			dadosRelatorio.add("A clique maxima eh de tamanho " + tamanho + ".");
 			
 			System.out.println("O laço executou em " + fimLaco + "ms\n");
 			dadosRelatorio.add("O laço executou em " + fimLaco + "ms\n");
 			
-			fimTotal = System.currentTimeMillis() - inicioTotal;
 			System.out.println("O programa executou em " + fimTotal + "ms\n");
 			dadosRelatorio.add("O programa executou em " + fimTotal + "ms\n");
 			
@@ -241,19 +241,19 @@ public class MaxClique
 	/**
 	 * Método recursivo que verifica todas as adjacências dos vértices de entrada
 	 * @param vertices Vetor de vértices
-	 * @param res
+	 * @param auxiliar Armazena um vetor de vertices auxiliar 
 	 * @param indiceAtual
 	 * @param nivel
 	 * @param tamanho
 	 * @return True if a clique of size r is found
 	 * @throws IOException 
 	 */
-	private boolean verificaAdjacencias(int[] vertices, int[] res, int indiceAtual, int nivel, int tamanho) throws IOException {
+	private boolean verificaAdjacencias(int[] vertices, int[] auxiliar, int indiceAtual, int nivel, int tamanho) throws IOException {
 		// caso base da recursão
 		if (nivel == tamanho)
         {
 			// Verificando se é uma clique
-        	if(verificaClique(res, tamanho))
+        	if(verificaClique(auxiliar, tamanho))
         	{
 				// Sim, é uma clique
         		return true;
@@ -263,8 +263,8 @@ public class MaxClique
         }
         for (int i = indiceAtual; i < vertices.length; i++) //laço de verificação
         {
-            res[nivel] = vertices[i]; //preenche recursivamente o vetor res com os vertices até chegar no tamanho;
-            if (verificaAdjacencias(vertices, res, i+1, nivel+1, tamanho))
+            auxiliar[nivel] = vertices[i]; //preenche recursivamente o vetor res com os vertices até chegar no tamanho;
+            if (verificaAdjacencias(vertices, auxiliar, i+1, nivel+1, tamanho))
             {
     			return true;
             }

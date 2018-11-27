@@ -6,7 +6,7 @@ public class Main
 {
 	public static void main(String[] args) throws IOException {
 		
-		RandomGraph novo = new RandomGraph();
+		GrafoAleatorio novo = new GrafoAleatorio();
 		novo.gerarRandom();
 		System.out.printf("Iniciando a busca pela clique máxima\n");
 		buscaCliqueMaxima();

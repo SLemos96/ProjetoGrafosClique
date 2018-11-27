@@ -9,7 +9,7 @@ import java.util.Random;
 import java.util.Scanner;
 import java.util.Set;
 
-public class RandomGraph {
+public class GrafoAleatorio {
 
 	public void gerarRandom() throws IOException {
 		// Ler argumentos da linha de comandos

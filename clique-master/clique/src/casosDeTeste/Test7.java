@@ -8,38 +8,35 @@ import static org.junit.Assert.*;
 
 import java.io.IOException;
 
-public class Test1 
+public class Test7 
 {
 	    
 	@Test
 	public void test() throws IOException 
 	{
-		/* Grafo de Entrada:
-		 * O----O
-		 * |    |
-		 * |    |
-		 * O----O
+		/* Grafo de entrada:
+		 * K_15
 		 * Resultado esperado:
-		 * Clique de tamanho 2
+		 * Clique de tamanho 15
 		 * 
 		 * OK
 		 */
 		
-		MaxClique clique = new MaxClique("testes/graphTest1.txt");
+		MaxClique clique = new MaxClique("testes/graphTest7.txt");
 		
 		for (int i = clique.matrizAdjacencia.length; i >= 1; i--)
 		{	
 			if (clique.encontraGrauMaior(i-1) >= i-1)
 			{
-				// Verificando se existe uma clique completa de tamanho i
+				// Check for a complete clique of size i
 				if (clique.verificaSubClique(i))
 				{
-					//Clique encontrada
+					// Clique encontrada
 					return;
 				}
 			}
 		}
-		fail();
 		
+		fail();
 	}
 }

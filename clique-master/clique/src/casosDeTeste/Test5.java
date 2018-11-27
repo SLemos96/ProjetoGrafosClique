@@ -14,17 +14,10 @@ public class Test5
 	@Test
 	public void test() throws IOException 
 	{
-		/* Grafo de entrada:
-		 * O----O----O
-		 *      | \  |
-		 *      |  \ |
-		 *      O----O----O
-		 *           | \/ |
-		 *           | /\ |
-		 *           O----O
+		/* 25 Vértices e apenas 1 aresta
 		 * 
 		 * Resultado esperado:
-		 * Clique de tamanho 4
+		 * Clique de tamanho 2
 		 * 
 		 * OK
 		 * 

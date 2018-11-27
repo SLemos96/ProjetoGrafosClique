@@ -1,47 +1,8 @@
-O relogio está iniciando sua contagem:0ms
-
-Procurando por uma clique de tamanho 17...
-Não existe uma clique de tamanho 17
+Procurando por uma clique de tamanho 3...
+Procurando por uma clique de tamanho 2...
+A clique maxima eh de tamanho 2.
 O laço executou em 0ms
 
-Procurando por uma clique de tamanho 16...
-Não existe uma clique de tamanho 16
-O laço executou em 31ms
+O programa executou em 10ms
 
-Procurando por uma clique de tamanho 15...
-Não existe uma clique de tamanho 15
-O laço executou em 829ms
-
-Procurando por uma clique de tamanho 14...
-Não existe uma clique de tamanho 14
-O laço executou em 1326ms
-
-Procurando por uma clique de tamanho 13...
-Não existe uma clique de tamanho 13
-O laço executou em 1833ms
-
-Procurando por uma clique de tamanho 12...
-Não existe uma clique de tamanho 12
-O laço executou em 2101ms
-
-Procurando por uma clique de tamanho 11...
-Não existe uma clique de tamanho 11
-O laço executou em 1158ms
-
-Procurando por uma clique de tamanho 10...
-Não existe uma clique de tamanho 10
-O laço executou em 706ms
-
-Procurando por uma clique de tamanho 9...
-Não existe uma clique de tamanho 9
-O laço executou em 304ms
-
-Procurando por uma clique de tamanho 8...
-Não existe uma clique de tamanho 8
-O laço executou em 114ms
-
-Procurando por uma clique de tamanho 7...
-A clique maxima eh de tamanho 7.
-O laço executou em 0ms
-
-Vertices incluidos: 1, 6, 10, 12, 15, 17, 19
+Vertices incluidos: 1, 2
