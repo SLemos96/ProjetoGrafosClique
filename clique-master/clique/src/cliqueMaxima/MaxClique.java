@@ -245,7 +245,7 @@ public class MaxClique
 	 * @param indiceAtual
 	 * @param nivel
 	 * @param tamanho
-	 * @return True if a clique of size r is found
+	 * @return True se uma clique de tamanho R for encontrada
 	 * @throws IOException 
 	 */
 	private boolean verificaAdjacencias(int[] vertices, int[] auxiliar, int indiceAtual, int nivel, int tamanho) throws IOException {
