@@ -187,12 +187,6 @@ public class MaxClique
 		{
 			for (int j = i+1; j < vertices.length; j++)
 			{
-				// Impressão para debugging
-				/*System.out.println("vertices.length = " + vertices.length);
-				System.out.println("i = " + i + ", j = " + j);
-				System.out.println("vertices[i] = " + vertices[i]);
-				System.out.println("vertices[j] = " + vertices[j]);
-				System.out.println("matrizAdjacencia[vertices[i]][vertices[j]] = " + matrizAdjacencia[vertices[i]][vertices[j]]);*/
 				if (matrizAdjacencia[vertices[i]][vertices[j]] == 0)
 				{
 					falhou = true;
@@ -210,7 +204,7 @@ public class MaxClique
 		}
 		else
 		{
-			// Encontrou a maior clique
+			// Encontrou a maior clique: Imprime o resultado
 			fimLaco = System.currentTimeMillis() - inicioLaco;
 			fimTotal = System.currentTimeMillis() - inicioTotal;
 			System.out.println("A clique maxima eh de tamanho " + tamanho + ".");
@@ -248,27 +242,25 @@ public class MaxClique
 	 * @return True se uma clique de tamanho R for encontrada
 	 * @throws IOException 
 	 */
-	private boolean verificaAdjacencias(int[] vertices, int[] auxiliar, int indiceAtual, int nivel, int tamanho) throws IOException {
-		// caso base da recursão
-		if (nivel == tamanho)
+	private boolean verificaAdjacencias(int[] vertices, int[] auxiliar, int indiceAtual,
+			int nivel, int tamanho) throws IOException {
+
+		// Complexidade no pior caso O(n)
+        for (int i = indiceAtual; i < vertices.length; i++, nivel++) //laço de verificação
         {
-			// Verificando se é uma clique
-        	if(verificaClique(auxiliar, tamanho))
-        	{
-				// Sim, é uma clique
-        		return true;
-        	}
-        	// Não é uma clique
-        	return false;
-        }
-        for (int i = indiceAtual; i < vertices.length; i++) //laço de verificação
-        {
-            auxiliar[nivel] = vertices[i]; //preenche recursivamente o vetor res com os vertices até chegar no tamanho;
-            if (verificaAdjacencias(vertices, auxiliar, i+1, nivel+1, tamanho))
+    	//preenche recursivamente o vetor auxiliar com os vertices até chegar no tamanho;
+            auxiliar[nivel] = vertices[i];
+            if (nivel == tamanho)
             {
-    			return true;
+            	if(verificaClique(auxiliar, tamanho))
+            	{
+    				// Sim, é uma clique
+            		return true;
+            	}
+            	// Não é uma clique
+            	return false;
             }
-            // Para evitar a impressão duplicada
+            // Para evitar a inserção duplicada
             if (i < vertices.length-1 && vertices[i] == vertices[i+1])
             {
                 i++;
