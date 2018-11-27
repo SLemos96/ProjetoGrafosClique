@@ -12,8 +12,10 @@ public class MaxClique
 	private Scanner scanner; // File Scanner
 	public int matrizAdjacencia[][]; 	 // Matriz de adjacencia
 	public int graus[]; 	 // Vetor de graus
-	long fim = 0;
-	long inicio = System.currentTimeMillis();
+	long fimTotal = 0;
+	long inicioTotal = System.currentTimeMillis();
+	long fimLaco = 0;
+	long inicioLaco = System.currentTimeMillis();
 	List<String> dadosRelatorio = new ArrayList<>();
 	EscreveLog registro = new EscreveLog();
 	
@@ -29,9 +31,12 @@ public class MaxClique
 		// Guarda os graus de cada vértice
 		iniciarGraus();
 		
+		System.out.println("O relogio está iniciando sua contagem:" + "0ms\n");
+		dadosRelatorio.add("O relogio está iniciando sua contagem:" + "0ms\n");
+		
 		// Inicio da solução
 		// Itera sobre matrizAdjacencia, inicia na clique de maior tamanho
-		for (int i = matrizAdjacencia.length; i >= 1; i--, fim = 0, inicio = System.currentTimeMillis())
+		for (int i = matrizAdjacencia.length; i >= 1; i--, fimLaco = 0, inicioLaco = System.currentTimeMillis())
 		{	
 			// exemplo: Em um grafo de 5 nós, senão contém 5 nós de grau 4, siga para o próximo grau inferior.
 			if (encontraGrauMaior(i-1) >= i)
@@ -44,9 +49,9 @@ public class MaxClique
 				}
 				System.out.print("Não existe uma clique de tamanho " + i + "...\n");
 				dadosRelatorio.add("Não existe uma clique de tamanho " + i);
-				fim = System.currentTimeMillis() - inicio;
-				System.out.println("O laço executou em " + fim + "ms\n");
-				dadosRelatorio.add("O laço executou em " + fim + "ms\n");
+				fimLaco = System.currentTimeMillis() - inicioLaco;
+				System.out.println("O laço executou em " + fimLaco + "ms\n");
+				dadosRelatorio.add("O laço executou em " + fimLaco + "ms\n");
 			}
 		}
 	}
@@ -149,7 +154,7 @@ public class MaxClique
 		   pois é impossível que esses vértices façam parte da clique */
 		System.out.println("Procurando por uma clique de tamanho " + tamanho + "...");
 		dadosRelatorio.add("Procurando por uma clique de tamanho " + tamanho + "...");
-		inicio = System.currentTimeMillis();
+		inicioLaco = System.currentTimeMillis();
 		int vertices[] = new int[encontraGrauMaior(tamanho-1)];
 		int cont = 0;
 		// Usando "vertices", ou seja, vértices de grau maior ou igual a tamanho
@@ -206,13 +211,18 @@ public class MaxClique
 		else
 		{
 			// Encontrou a maior clique
-			fim = System.currentTimeMillis() - inicio;
+			fimLaco = System.currentTimeMillis() - inicioLaco;
 			System.out.println("A clique maxima eh de tamanho " + tamanho + ".");
 			dadosRelatorio.add("A clique maxima eh de tamanho " + tamanho + ".");
 			
-			System.out.println("O laço executou em " + fim + "ms\n");
-			dadosRelatorio.add("O laço executou em " + fim + "ms\n");
+			System.out.println("O laço executou em " + fimLaco + "ms\n");
+			dadosRelatorio.add("O laço executou em " + fimLaco + "ms\n");
 			
+			fimTotal = System.currentTimeMillis() - inicioTotal;
+			System.out.println("O programa executou em " + fimTotal + "ms\n");
+			dadosRelatorio.add("O programa executou em " + fimTotal + "ms\n");
+			
+			//o +1 representa a soma pq a contagem no vetor começa em 0 e no grafo começa em 1
 			System.out.print("Vertices incluidos: " + (vertices[0]+1));
 			String auxiliar = "Vertices incluidos: " + (vertices[0]+1);
 			for(int i = 1; i < vertices.length; i++)
@@ -239,7 +249,7 @@ public class MaxClique
 	 * @throws IOException 
 	 */
 	private boolean verificaAdjacencias(int[] vertices, int[] res, int indiceAtual, int nivel, int tamanho) throws IOException {
-		// Check if combo found
+		// caso base da recursão
 		if (nivel == tamanho)
         {
 			// Verificando se é uma clique
@@ -251,9 +261,9 @@ public class MaxClique
         	// Não é uma clique
         	return false;
         }
-        for (int i = indiceAtual; i < vertices.length; i++) 
+        for (int i = indiceAtual; i < vertices.length; i++) //laço de verificação
         {
-            res[nivel] = vertices[i];
+            res[nivel] = vertices[i]; //preenche recursivamente o vetor res com os vertices até chegar no tamanho;
             if (verificaAdjacencias(vertices, res, i+1, nivel+1, tamanho))
             {
     			return true;
