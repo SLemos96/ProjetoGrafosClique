@@ -1,8 +1,17 @@
+O relogio está iniciando sua contagem: 0ms
+
+Procurando por uma clique de tamanho 5...
+Não existe uma clique de tamanho 5
+O laço executou em 2ms
+
+Procurando por uma clique de tamanho 4...
+Não existe uma clique de tamanho 4
+O laço executou em 1ms
+
 Procurando por uma clique de tamanho 3...
-Procurando por uma clique de tamanho 2...
-A clique maxima eh de tamanho 2.
-O laço executou em 0ms
+A clique maxima eh de tamanho 3.
+O laço executou em 1ms
 
-O programa executou em 10ms
+O programa executou em 42ms
 
-Vertices incluidos: 1, 2
+Vertices incluidos: 2, 24, 38

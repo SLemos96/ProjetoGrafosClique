@@ -26,7 +26,7 @@ public class Test2
 		
 		for (int i = clique.matrizAdjacencia.length; i >= 1; i--)
 		{	
-			if (clique.encontraGrauMaior(i-1) >= i-1)
+			if (clique.encontraMaiorGrau(i-1) >= i-1)
 			{
 				// Check for a complete clique of size i
 				if (clique.verificaSubClique(i))

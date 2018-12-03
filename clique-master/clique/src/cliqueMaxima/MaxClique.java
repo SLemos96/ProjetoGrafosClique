@@ -39,7 +39,7 @@ public class MaxClique
 		for (int i = matrizAdjacencia.length; i >= 1; i--, fimLaco = 0, inicioLaco = System.currentTimeMillis())
 		{	
 			// exemplo: Em um grafo de 5 nós, senão contém 5 nós de grau 4, siga para o próximo grau inferior.
-			if (encontraGrauMaior(i-1) >= i)
+			if (encontraMaiorGrau(i-1) >= i)
 			{
 				// Procura uma clique completa de tamanho i
 				if (verificaSubClique(i))
@@ -128,9 +128,9 @@ public class MaxClique
 	}
 	
 	/**
-	 * Encontra o número de vértices que possuem o "grau" recebido como parâmetro
+	 * Encontra o número de vértices que possuem o grau recebido como parâmetro
 	 */
-	public int encontraGrauMaior(int grau)
+	public int encontraMaiorGrau(int grau)
 	{
 		int n_vertices = 0;
 		for (int i = 0; i < matrizAdjacencia.length; i++)
@@ -144,7 +144,7 @@ public class MaxClique
 	}
 		
 	/**
-	 * Verifica se existe uma clique completa com o "tamanho" recebido como parâmetro
+	 * Verifica se existe uma clique de tamanho recebido como parâmetro
 	 * @throws IOException 
 	 */
 	public boolean verificaSubClique(int tamanho) throws IOException 
@@ -155,7 +155,7 @@ public class MaxClique
 		System.out.println("Procurando por uma clique de tamanho " + tamanho + "...");
 		dadosRelatorio.add("Procurando por uma clique de tamanho " + tamanho + "...");
 		inicioLaco = System.currentTimeMillis();
-		int vertices[] = new int[encontraGrauMaior(tamanho-1)];
+		int vertices[] = new int[encontraMaiorGrau(tamanho-1)];
 		int cont = 0;
 		// Usando "vertices", ou seja, vértices de grau maior ou igual a tamanho
 		for (int i = 0; i < graus.length; i++)
@@ -167,10 +167,10 @@ public class MaxClique
 			}
 		}
 		
-		// Chamada de método usado para verificar todas as adjacências entre os vértices de v[]
+		// Chamada de método usado para verificar todas as combinações entre os vértices de v[]
 		// Usa força bruta
-		int[] res = new int[tamanho];
-		return verificaAdjacencias(vertices, res, 0, 0, tamanho); // combination(v, tamanho);
+		int[] auxiliar = new int[tamanho];
+		return verificaCombinacoes(vertices, auxiliar, 0, 0, tamanho);
 	}
 	
 	/**
@@ -239,18 +239,19 @@ public class MaxClique
 	}
 	
 	/**
-	 * Método recursivo que verifica todas as adjacências dos vértices de entrada
+	 * Método recursivo que verifica todas as combinações possíveis dos vértices passados por parâmetro
 	 * @param vertices Vetor de vértices
 	 * @param auxiliar Armazena um vetor de vertices auxiliar 
 	 * @param indiceAtual
-	 * @param nivel
+	 * @param testeAtual
 	 * @param tamanho
 	 * @return True se uma clique de tamanho R for encontrada
 	 * @throws IOException 
 	 */
-	private boolean verificaAdjacencias(int[] vertices, int[] auxiliar, int indiceAtual, int nivel, int tamanho) throws IOException {
+	private boolean verificaCombinacoes(int[] vertices, int[] auxiliar, int indiceAtual, 
+			int testeAtual, int tamanho) throws IOException {
 		// caso base da recursão
-		if (nivel == tamanho)
+		if (testeAtual == tamanho)
         {
 			// Verificando se é uma clique
         	if(verificaClique(auxiliar, tamanho))
@@ -263,8 +264,9 @@ public class MaxClique
         }
         for (int i = indiceAtual; i < vertices.length; i++) //laço de verificação
         {
-            auxiliar[nivel] = vertices[i]; //preenche recursivamente o vetor res com os vertices até chegar no tamanho;
-            if (verificaAdjacencias(vertices, auxiliar, i+1, nivel+1, tamanho))
+            auxiliar[testeAtual] = vertices[i]; 
+            //preenche recursivamente o vetor auxiliar com os vertices até chegar no tamanho;
+            if (verificaCombinacoes(vertices, auxiliar, i+1, testeAtual+1, tamanho))
             {
     			return true;
             }
@@ -274,7 +276,7 @@ public class MaxClique
                 i++;
             }
         }
-        // Clique de tamanho r não foi encontrada
+        // Clique "tamanho" não foi encontrada
         return false;
     }
 	
@@ -282,7 +284,6 @@ public class MaxClique
 	 * Método para impressão de matriz
 	 * Usado para debugging
 	 */
-	@SuppressWarnings("unused")
 	private void imprimeMatriz()
 	{
 		for (int i = 0; i < matrizAdjacencia.length; i++)
